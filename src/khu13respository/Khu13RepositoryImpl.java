@@ -10,6 +10,7 @@ import java.util.List;
 import khu13config.Khu13Config;
 import khu13entity.AccountEntity;
 import khu13entity.SiteEntity;
+import kits_khu13.Login;
 import kits_khu13.User;
 
 public class Khu13RepositoryImpl implements Khu13Repository {
@@ -21,25 +22,10 @@ public class Khu13RepositoryImpl implements Khu13Repository {
 		conn = Khu13Config.getInstance().getConnection();
 		return conn;
 	}
-	public void add(AccountEntity acc) {
-		try {
-			String queryString = "Insert Into " + "account(access,name,password,phone)"
-			    	+"Values(?,?,?,?)";
-						connection = getConnection();
-						pstmt = connection.prepareStatement(queryString);
-						pstmt.setString(1,"user");
-						pstmt.setString(2,acc.getName());
-						pstmt.setString(3,acc.getPassword());
-//						pstmt.setInt(4,acc.getMoney());
-						pstmt.setString(4,acc.getPhone());
-						pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 	@Override
 	public List<SiteEntity> findAll() {
-		List<SiteEntity> list = new ArrayList();
+		List<SiteEntity> list = new ArrayList<>();
 		String queryString = "SELECT * FROM site";
 		try {
 			connection= getConnection();
@@ -104,7 +90,81 @@ public class Khu13RepositoryImpl implements Khu13Repository {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	@Override
+	public void checklog(AccountEntity acc) {
+		try {
+			connection=getConnection();
+			String queryString = "SELECT * FROM account WHERE name = ? and password= ?";
+			pstmt =connection.prepareStatement(queryString);
+			pstmt.setString(1, acc.getName());
+			pstmt.setString(2, acc.getPassword());
+			result=pstmt.executeQuery();
+			if(result.next()) {
+				System.out.println("Your access: "+result.getString(2));
+				acc.setAccess(result.getString(2));
+//				System.out.println(acc.getAccess());
+			}
+			else {
+				System.out.println("Error!!!");
+				Login again = new Login();
+				again.login();
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(connection!=null) {
+					connection.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(result!=null) {
+					result.close();
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		// TODO Auto-generated method stub
+	
+	}
+	public void add(AccountEntity acc) {
+		try {
+			String queryString = "Insert Into " + "account(access,name,password,phone,typeofaccess)"
+			    	+"Values(?,?,?,?,?)";
+						connection = getConnection();
+						pstmt = connection.prepareStatement(queryString);
+						pstmt.setString(1,"user");
+						pstmt.setString(2,acc.getName());
+						pstmt.setString(3,acc.getPassword());
+//						pstmt.setInt(4,acc.getMoney());
+						pstmt.setString(4,acc.getPhone());
+						pstmt.setString(5,"1");
+						pstmt.executeUpdate();
+						if(result.next()) {
+							
+						}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(connection!=null) {
+					connection.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(result!=null) {
+					result.close();
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
 	
 	
 }

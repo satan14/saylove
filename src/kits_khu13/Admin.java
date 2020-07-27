@@ -11,23 +11,7 @@ import khu13respository.Khu13RepositoryImpl;
 
 public class Admin {
 	static Scanner scan = new Scanner(System.in);
-	public void signin() {
-		AccountEntity acc = new AccountEntity();
-		Khu13RepositoryImpl khu13repimpl = new Khu13RepositoryImpl();
-		System.out.println("What's your name?");
-		String username = scan.next();
-		acc.setName(username);
-		System.out.println("What's your password?");
-		String pass = scan.next();
-		acc.setPassword(pass);
-//		System.out.println("How much?");
-//		int money = scan.nextInt();
-//		acc.setMoney(money);
-		System.out.println("What's your numberphone: ");
-		String phone = scan.next();
-		acc.setPhone(phone);
-		khu13repimpl.add(acc);
-	}
+	
 	public void showSite() {
 		Khu13RepositoryImpl khu13RepositoryImpl = new Khu13RepositoryImpl();
 		List<SiteEntity> list = new ArrayList();

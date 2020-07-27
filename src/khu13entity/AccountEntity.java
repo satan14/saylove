@@ -7,16 +7,24 @@ public class AccountEntity {
 	private String password;
 	private int money;
 	private String phone;
+	private String typeofaccess;
 	public AccountEntity() {
 		super();
 	}
-	public AccountEntity(int id, String name, String access, String password, int money, String phone) {
+	public AccountEntity(int id, String name, String access, String password, int money, String phone,String typeofaccess) {
 		this.id = id;
 		this.name = name;
 		this.access = access;
 		this.password = password;
 		this.money = money;
 		this.phone = phone;
+		this.typeofaccess = typeofaccess;
+	}
+	public String getTypeofaccess() {
+		return typeofaccess;
+	}
+	public void setTypeofaccess(String typeofaccess) {
+		this.typeofaccess = typeofaccess;
 	}
 	public int getId() {
 		return id;
